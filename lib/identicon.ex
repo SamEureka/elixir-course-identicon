@@ -50,7 +50,7 @@ defmodule Identicon do
   end
 
   @doc """
-  Helper function to mirror the input row.
+  *Helper function* to mirror the input row.
   """
   def mirror_row(row) do
     [first, second, _nope] = row
@@ -58,6 +58,9 @@ defmodule Identicon do
     row ++ [second, first]
   end
 
+  @doc """
+  *Helper function* to filter the grid. Removes any odd hex values, returns even values in a new grid.
+  """
   def filter_odd(%Identicon.Image{grid: grid} = image) do
     grid = Enum.filter grid, fn({code, _nope}) ->
       rem(code, 2) == 0
@@ -67,7 +70,7 @@ defmodule Identicon do
   end
 
   @doc """
-  Builds a pixel map
+  Builds a pixel map.
   """
   def create_pixel_map(%Identicon.Image{grid: grid} = image) do
     pixel_map = Enum.map grid, fn({_code, index}) ->
@@ -82,6 +85,9 @@ defmodule Identicon do
     %Identicon.Image{image | pixel_map: pixel_map}
   end
 
+  @doc """
+  Uses erlang graphical drawer module to generate an image.
+  """
   def create_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
     image = :egd.create(250, 250)
     fill = :egd.color(color)
@@ -93,6 +99,9 @@ defmodule Identicon do
     :egd.render(image)
   end
 
+  @doc """
+  Saves the generated image to disk.
+  """
   def save_image(image, input) do
     File.write("#{input}.png", image)
   end
