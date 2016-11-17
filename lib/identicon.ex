@@ -94,7 +94,7 @@ defmodule Identicon do
   end
 
   def save_image(image, input) do
-    File.write("#{input}", image)
+    File.write("#{input}.png", image)
   end
 
 end
